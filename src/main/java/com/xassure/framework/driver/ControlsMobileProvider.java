@@ -59,8 +59,10 @@ public class ControlsMobileProvider implements Provider<Controls> {
 		if (service == null) {
 			setAppiumConfig();
 			startAppium(deviceType);
+			System.out.println("Appium servier started successfullty");
 		} else if (service.isRunning() == false) {
 			startAppium(deviceType);
+			System.out.println("Appium servier started successfullty with devicetype - " + deviceType);
 		}
 
 		if (mobileDriverMap == null) {
@@ -167,12 +169,13 @@ public class ControlsMobileProvider implements Provider<Controls> {
 			caps.setCapability(MobileCapabilityType.UDID, deviceId);
 			caps.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceType);
 			caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion);
-			if (platform.toLowerCase().contains("app")) {
+			if (platform.toLowerCase().contains("mobile")) {
 				caps.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-
-				if (!appActivity.isEmpty())
+				System.out.println(app.getAbsolutePath());
+				if (!appActivity.isEmpty()) {
 					caps.setCapability("appActivity", appActivity);
-
+					System.out.println(appPackage + appActivity + " set up app activity>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+				}
 			} else if (platform.toLowerCase().contains("browser")) {
 				if (deviceType.equalsIgnoreCase("android")) {
 					caps.setCapability("browserName", "Chrome");
@@ -186,9 +189,12 @@ public class ControlsMobileProvider implements Provider<Controls> {
 			caps.setCapability(MobileCapabilityType.NO_RESET, "true");
 			if (deviceType.equalsIgnoreCase("android")) {
 				if (!appPackage.isEmpty())
-					caps.setCapability("appPackage", appPackage);
+//					caps.setCapability("appActivity", appActivity);
+//					caps.setCapability("appPackage", appPackage);
+				System.out.println(appPackage + appActivity + "set up app package>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				driver = new AndroidDriver<MobileElement>(
 						new URL("http://" + serverIpAddress + ":" + serverPort + "/wd/hub"), caps);
+				System.out.println("Driver >>>>>>>>>>>>>>" + driver);
 			} else if (deviceType.equalsIgnoreCase("ios")) {
 				caps.setCapability("bundleId", appPackage);
 				driver = new IOSDriver<MobileElement>(
