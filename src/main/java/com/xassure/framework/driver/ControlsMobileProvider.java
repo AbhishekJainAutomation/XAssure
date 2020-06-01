@@ -59,7 +59,7 @@ public class ControlsMobileProvider implements Provider<Controls> {
 		if (service == null) {
 			setAppiumConfig();
 			startAppium(deviceType);
-			System.out.println("Appium servier started successfullty");
+			System.out.println("Appium servier started successfullty - " + deviceType);
 		} else if (service.isRunning() == false) {
 			startAppium(deviceType);
 			System.out.println("Appium servier started successfullty with devicetype - " + deviceType);
@@ -164,12 +164,15 @@ public class ControlsMobileProvider implements Provider<Controls> {
 			DesiredCapabilities caps = new DesiredCapabilities();
 			File appdir = new File(appBuildPath);
 			File app = new File(appdir, appBuildName);
+
 			caps.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
 			// 2e3d8c7ac11079f9249afd56bd06638587a69a30
 			caps.setCapability(MobileCapabilityType.UDID, deviceId);
 			caps.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceType);
 			caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion);
-			if (platform.toLowerCase().contains("mobile")) {
+
+			if (platform.toLowerCase().contains("app")) {
+				System.out.println("Insider mobile app creation >>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				caps.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 				System.out.println(app.getAbsolutePath());
 				if (!appActivity.isEmpty()) {
@@ -178,9 +181,20 @@ public class ControlsMobileProvider implements Provider<Controls> {
 				}
 			} else if (platform.toLowerCase().contains("browser")) {
 				if (deviceType.equalsIgnoreCase("android")) {
+
+					// Set up the capability of chromedriverExecutable to trigger chrome
+					// Chrome in mobile is triggered with the help of chromedriver which is chosen on the basis of
+					// OS of execution machine
+					if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+						caps.setCapability("chromedriverExecutable",
+								"src/main/resources/chromedriver.exe");
+					} else if (System.getProperty("os.name").equalsIgnoreCase("Mac OS X")) {
+						caps.setCapability("chromedriverExecutable",
+								"src/main/resources/chromedriver");
+					}
 					caps.setCapability("browserName", "Chrome");
-					// Set ChromeDriver location
-					System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+					caps.setCapability("showChromedriverLog", "true");
+
 				} else if (deviceType.equalsIgnoreCase("ios")) {
 					caps.setCapability("browserName", "Safari");
 

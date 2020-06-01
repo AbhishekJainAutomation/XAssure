@@ -925,7 +925,7 @@ public class MobileControlsLibrary implements Controls {
 
 		jsonArray = new JSONArray();
 		Map<String, List<String>> locatorsMapValues = getLocatorsMap(property);
-		List<WebElement> webElements = new ArrayList<WebElement>();
+		List<WebElement> webElements = new ArrayList<>();
 		try {
 			for (String locator : locatorsMapValues.keySet()) {
 
@@ -964,6 +964,8 @@ public class MobileControlsLibrary implements Controls {
 			}
 			return webElements;
 		} catch (Exception e) {
+			System.out.println(e);
+			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -972,7 +974,6 @@ public class MobileControlsLibrary implements Controls {
 	private List<WebElement> getWebElementList(String elementName, String properties, long timeOutInSeconds) {
 		jsonArray = new JSONArray();
 		boolean locatorFlag = false;
-
 		// TODO Auto-generated method stub
 		// Map<String, String> descriptionMap = getDescription(elementName,
 		// stepDescription);
@@ -1036,16 +1037,15 @@ public class MobileControlsLibrary implements Controls {
 					List<String> locatorNameProperties = locatorsMapValues.get(locatorName);
 					locatorNameProperties.add(locatorValue);
 				} else {
-					List<String> locatorVal = new ArrayList<String>();
+					List<String> locatorVal = new ArrayList<>();
 					locatorVal.add(locatorValue);
 					locatorsMapValues.put(locatorName, locatorVal);
-
 				}
 
 			}
 
 		} catch (Exception e) {
-
+			System.out.println(e);
 			Reporting.getLogger().log(LogStatus.FAIL, "Exception occured while getting locators from properties", e);
 		}
 
