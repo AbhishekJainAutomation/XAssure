@@ -32,7 +32,7 @@ import com.xassure.reporting.utilities.PropertiesFileHandler;
 
 public class EnvironmentSetup {
 
-	public Injector injector;
+	public static Injector injector;
 	public Injector apiInjector;
 	public Injector dbInjector;
 	PropertiesFileHandler propFileHandle = new PropertiesFileHandler();
