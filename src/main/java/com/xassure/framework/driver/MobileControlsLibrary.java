@@ -68,6 +68,11 @@ public class MobileControlsLibrary implements Controls {
 	}
 
 	@Override
+	public AppiumDriver<MobileElement> getDriver(String mobile) {
+		return driver;
+	}
+
+	@Override
 	public void launchApplication(String url) {
 		driver.get(url);
 		String currentUrl = driver.getCurrentUrl();
@@ -300,8 +305,24 @@ public class MobileControlsLibrary implements Controls {
 
 	@Override
 	public boolean isElementExists(String elementName, String property) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean bFlag = false;
+		List<WebElement> elements = getWebElementList(property, elementName);
+		try {
+			for (WebElement element : elements) {
+					bFlag = visibilityofWebelement(element);
+					break;
+			}
+			if (!bFlag) {
+				Reporting.getLogger().log(LogStatus.FAIL, "Element is not visible '" + elementName + "'.");
+			} else {
+				Reporting.getLogger().log(LogStatus.PASS, "Element is visible '" + elementName + "'.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Reporting.getLogger().log(LogStatus.FAIL,
+					"Exception occured while checking visibility on element '" + elementName + "'", e);
+		}
+		return bFlag;
 	}
 
 	@Override

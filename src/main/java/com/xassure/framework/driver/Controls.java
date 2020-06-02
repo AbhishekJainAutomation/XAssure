@@ -1,5 +1,6 @@
 package com.xassure.framework.driver;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,8 @@ import org.openqa.selenium.WebElement;
 
 public interface Controls {
 	WebDriver getDriver();
+
+	AppiumDriver getDriver(String mobile);
 
 	void launchApplication(String url);
 

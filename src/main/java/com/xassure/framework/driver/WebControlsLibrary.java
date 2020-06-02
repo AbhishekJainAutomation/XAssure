@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import io.appium.java_client.AppiumDriver;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.Alert;
@@ -66,6 +67,11 @@ class WebControlsLibrary implements Controls {
 		if (driver != null) {
 			return driver;
 		}
+		return null;
+	}
+
+	public AppiumDriver getDriver(String mobile) {
+		// not required for web
 		return null;
 	}
 
